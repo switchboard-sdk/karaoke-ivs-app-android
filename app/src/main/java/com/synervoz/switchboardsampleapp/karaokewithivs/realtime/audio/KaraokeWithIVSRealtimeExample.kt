@@ -32,7 +32,6 @@ import com.synervoz.switchboardsuperpowered.audiographnodes.FlangerNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.ReverbNode
 
 
-@RequiresApi(Build.VERSION_CODES.P)
 class KaraokeWithIVSRealtimeExample(val context: Context) {
 
     companion object {
@@ -106,7 +105,11 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
 
         audioDevice =
             deviceDiscovery.createAudioInputSource(1, sampleRate, AudioDevice.Format.INT16)
-        val microphoneStream = AudioLocalStageStream(audioDevice!!)
+        val microphoneStream = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            AudioLocalStageStream(audioDevice!!)
+        } else {
+            TODO("VERSION.SDK_INT < P")
+        }
         publishStreams.add(microphoneStream)
 
         ivsSinkNode = IVSBroadcastSinkNode(audioDevice!!)

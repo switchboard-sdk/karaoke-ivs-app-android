@@ -2,7 +2,6 @@ package com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.fragment
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.Choreographer
 import android.view.LayoutInflater
@@ -10,13 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SeekBar
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.synervoz.switchboard.sdk.Codec
 import com.synervoz.switchboard.sdk.utils.AssetLoader
 import com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.audio.KaraokeWithIVSRealtimeExample
-import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithIvsBinding
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamLink
+import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithRealtimeIvsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,17 +28,16 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
     }
 
     private lateinit var example: KaraokeWithIVSRealtimeExample
-    private lateinit var binding: FragmentKaraokeWithIvsBinding
+    private lateinit var binding: FragmentKaraokeWithRealtimeIvsBinding
     var isStreaming = false
     private var frameCallback: Choreographer.FrameCallback? = null
     private val uiScope = CoroutineScope(Dispatchers.Main)
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentKaraokeWithIvsBinding.inflate(inflater, container, false)
+        binding = FragmentKaraokeWithRealtimeIvsBinding.inflate(inflater, container, false)
 
         example = KaraokeWithIVSRealtimeExample(requireContext())
 

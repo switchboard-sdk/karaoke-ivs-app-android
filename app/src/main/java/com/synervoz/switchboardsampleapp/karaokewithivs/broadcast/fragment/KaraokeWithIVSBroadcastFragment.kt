@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment
 import com.synervoz.switchboard.sdk.Codec
 import com.synervoz.switchboard.sdk.utils.AssetLoader
 import com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.audio.KaraokeWithIVSBroadcastExample
-import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithIvsBinding
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamLink
+import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithBroadcastIvsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ class KaraokeWithIVSBroadcastFragment : Fragment() {
     }
 
     private lateinit var example: KaraokeWithIVSBroadcastExample
-    private lateinit var binding: FragmentKaraokeWithIvsBinding
+    private lateinit var binding: FragmentKaraokeWithBroadcastIvsBinding
     var isStreaming = false
     private var frameCallback: Choreographer.FrameCallback? = null
     private val uiScope = CoroutineScope(Dispatchers.Main)
@@ -37,7 +37,7 @@ class KaraokeWithIVSBroadcastFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentKaraokeWithIvsBinding.inflate(inflater, container, false)
+        binding = FragmentKaraokeWithBroadcastIvsBinding.inflate(inflater, container, false)
 
         example = KaraokeWithIVSBroadcastExample(requireContext())
 
