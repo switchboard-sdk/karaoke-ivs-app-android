@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -13,14 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.synervoz.switchboard.sdk.SwitchboardSDK
 import com.synervoz.switchboard.sdk.logger.Logger
-import com.synervoz.switchboardsampleapp.karaokewithivs.fragment.KaraokeWithIVSFragment
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.ActivityMainBinding
-import com.synervoz.switchboardsampleapp.karaokewithivs.config.superpoweredLicenseKey
-import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientID
-import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientSecret
-import com.synervoz.switchboardsuperpowered.SuperpoweredExtension
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,16 +25,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        SwitchboardSDK.initialize(switchboardClientID, switchboardClientSecret)
-        SuperpoweredExtension.initialize(superpoweredLicenseKey)
-
+        ExampleProvider.initialize(this)
         Logger.init()
 
         if (!requestPermission()) return
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                replace<KaraokeWithIVSFragment>(R.id.container, KaraokeWithIVSFragment.TAG)
+                replace<MainFragment>(R.id.container, MainFragment.TAG)
                 setReorderingAllowed(true)
             }
         }
@@ -52,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             addToBackStack(fragment.javaClass.name)
         }
         // Avoid clicks to propagate from the top fragment to the bottom MainFragment
-        supportFragmentManager.findFragmentByTag(KaraokeWithIVSFragment.TAG)?.view?.visibility = View.GONE
+        supportFragmentManager.findFragmentByTag(MainFragment.TAG)?.view?.visibility = View.GONE
     }
 
     override fun onRequestPermissionsResult(
@@ -75,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             }
         if (hasAllPermissions) {
             supportFragmentManager.commit {
-                replace<KaraokeWithIVSFragment>(R.id.container)
+                replace<MainFragment>(R.id.container)
                 setReorderingAllowed(true)
             }
         }
@@ -87,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.CAMERA
         )
 
+        Log.d("TJLOG", "requestPermission: ")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
         }
@@ -120,9 +113,9 @@ class MainActivity : AppCompatActivity() {
         val fragments = supportFragmentManager.fragments
         if (fragments.isNotEmpty()) {
             val lastFragment = supportFragmentManager.fragments.last()
-            if (lastFragment.tag == KaraokeWithIVSFragment.TAG) {
+            if (lastFragment.tag == MainFragment.TAG) {
                 // Show the MainFragment if all the other fragments were removed
-                supportFragmentManager.findFragmentByTag(KaraokeWithIVSFragment.TAG)?.view?.visibility = View.VISIBLE
+                supportFragmentManager.findFragmentByTag(MainFragment.TAG)?.view?.visibility = View.VISIBLE
             }
         }
     }

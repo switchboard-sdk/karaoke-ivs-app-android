@@ -7,7 +7,7 @@
     <color name="green_normal">#52b666</color>
     <color name="green_dark">#378246</color>
     <color name="black">#FF000000</color>
-    <color name="background">#FF000000</color>
+    <color name="background">#FFFFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="divider">#10aaaaaa</color>
 </resources>
