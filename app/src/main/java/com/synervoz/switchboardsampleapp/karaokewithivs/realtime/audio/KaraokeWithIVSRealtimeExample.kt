@@ -120,7 +120,6 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         audioGraph.addNode(audioPlayerNode)
         audioGraph.addNode(busSplitterNode)
         audioGraph.addNode(channelSplitterNode)
-        audioGraph.addNode(mixerNode)
         audioGraph.addNode(ivsSinkNode)
         audioGraph.addNode(flangerNode)
         audioGraph.addNode(delayNode)

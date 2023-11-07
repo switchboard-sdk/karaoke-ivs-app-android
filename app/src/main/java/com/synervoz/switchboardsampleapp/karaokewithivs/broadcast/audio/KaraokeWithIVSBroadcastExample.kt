@@ -85,7 +85,6 @@ class KaraokeWithIVSBroadcastExample(val context: Context) {
         audioGraph.addNode(flangerNode)
         audioGraph.addNode(delayNode)
         audioGraph.addNode(reverbNode)
-        audioGraph.addNode(mixerNode)
         audioGraph.addNode(vuMeterNode)
         audioGraph.addNode(splitterNode)
         audioGraph.addNode(multiChannelToMonoNode)
