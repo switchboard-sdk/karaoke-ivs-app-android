@@ -48,7 +48,6 @@ dependencies {
 
     implementation(files("libs/SwitchboardSDK-release.aar"))
     implementation(files("libs/SwitchboardAmazonIVS-release.aar"))
-    implementation(files("libs/SwitchboardAudioEffects-release.aar"))
     implementation(files("libs/SwitchboardSuperpowered-release.aar"))
     implementation("com.amazonaws:ivs-broadcast:1.12.1:stages@aar")
 

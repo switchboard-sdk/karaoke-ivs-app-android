@@ -80,6 +80,7 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
             return true
         }
 
+        @RequiresApi(Build.VERSION_CODES.P)
         override fun shouldSubscribeToParticipant(
             stage: Stage,
             participantInfo: ParticipantInfo
@@ -171,30 +172,19 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         audioGraph.close()
         channelSplitterNode.close()
         ivsSinkNode.close()
-        musicGainNode.close()
-        voiceGainNode.close()
-        audioPlayerNode.close()
-        busSplitterNode.close()
-        mixerNode.close()
-        ivsSinkNode.close()
-        flangerNode.close()
-        delayNode.close()
-        reverbNode.close()
-        mixerNode.close()
-        vuMeterNode.close()
-        splitterNode.close()
-        multiChannelToMonoNode.close()
     }
 
     fun startStream() {
-        audioPlayerNode.play()
+//        audioPlayerNode.play()
         session?.start(endpoint, streamKey)
         joinStage()
     }
 
     fun stopStream() {
         audioPlayerNode.pause()
-        stage?.leave()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            stage?.leave()
+        }
         session?.stop()
     }
 
@@ -223,18 +213,22 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     }
 
     private fun createStage() {
-        Stage(
-            context,
-            "eyJhbGciOiJLTVMiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE2OTkzNTM1NjQsImlhdCI6MTY5OTMxMDM2NCwianRpIjoiWXduMFB5NU92cjdNIiwicmVzb3VyY2UiOiJhcm46YXdzOml2czp1cy13ZXN0LTI6MTQ1NzIzNjg2MjQ2OnN0YWdlL1RrV1dzNXJOTktOWCIsInRvcGljIjoiVGtXV3M1ck5OS05YIiwiZXZlbnRzX3VybCI6IndzczovL2dsb2JhbC5lZXZlZS5ldmVudHMubGl2ZS12aWRlby5uZXQiLCJ3aGlwX3VybCI6Imh0dHBzOi8vYzg3MDU2N2QwOWQ3Lmdsb2JhbC1ibS53aGlwLmxpdmUtdmlkZW8ubmV0IiwidXNlcl9pZCI6InRqLTEiLCJjYXBhYmlsaXRpZXMiOnsiYWxsb3dfcHVibGlzaCI6dHJ1ZSwiYWxsb3dfc3Vic2NyaWJlIjp0cnVlfSwidmVyc2lvbiI6IjAuMCJ9.MGUCMEXuERQy8IdidVOUZkVD6F0J5pE3ie_CLb49BpDD3LfDk4u6QEIvSSmpWQocJ-VpmAIxAMaTS_Su_mwGIP-RGJRxT7fgiaDPtNRdz_k8VZQurq-hEaUcGJ5Cz-NnP0SDnuEJhQ",
-            stageStrategy
-        ).apply {
-            stage = this
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Stage(
+                context,
+                "eyJhbGciOiJLTVMiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE2OTkzNzk3MTUsImlhdCI6MTY5OTMzNjUxNSwianRpIjoiRHV6eXNucUJoT3dDIiwicmVzb3VyY2UiOiJhcm46YXdzOml2czp1cy13ZXN0LTI6MTQ1NzIzNjg2MjQ2OnN0YWdlL1RrV1dzNXJOTktOWCIsInRvcGljIjoiVGtXV3M1ck5OS05YIiwiZXZlbnRzX3VybCI6IndzczovL2dsb2JhbC5lZXZlZS5ldmVudHMubGl2ZS12aWRlby5uZXQiLCJ3aGlwX3VybCI6Imh0dHBzOi8vYzg3MDU2N2QwOWQ3Lmdsb2JhbC1ibS53aGlwLmxpdmUtdmlkZW8ubmV0IiwidXNlcl9pZCI6InRqLTEiLCJjYXBhYmlsaXRpZXMiOnsiYWxsb3dfcHVibGlzaCI6dHJ1ZSwiYWxsb3dfc3Vic2NyaWJlIjp0cnVlfSwidmVyc2lvbiI6IjAuMCJ9.MGUCMAaJ_DjOrfcR_oW2JvrmlHtu8Jn1go46MyzLiENCgd0LGisvBbPeuCrmMSobx5ptvwIxAK9G8e5DZpLBxDx8vt1H7VGq5__GfXMN_FsmGsKiMy0HtYBMeqpovNFeC4fN2CGM6g",
+                stageStrategy
+            ).apply {
+                stage = this
+            }
         }
     }
 
     private fun joinStage() {
         try {
-            stage?.join()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                stage?.join()
+            }
         } catch (exception: BroadcastException) {
             Log.d(TAG, "createStage: error " + exception.message)
         }

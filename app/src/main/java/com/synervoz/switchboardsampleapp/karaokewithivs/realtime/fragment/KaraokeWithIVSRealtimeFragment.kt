@@ -130,8 +130,6 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
 
         }
 
-        binding.shareLink.setOnClickListener { shareStreamLink() }
-
         return binding.root
     }
 
