@@ -216,7 +216,7 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             Stage(
                 context,
-                "eyJhbGciOiJLTVMiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE2OTkzNzk3MTUsImlhdCI6MTY5OTMzNjUxNSwianRpIjoiRHV6eXNucUJoT3dDIiwicmVzb3VyY2UiOiJhcm46YXdzOml2czp1cy13ZXN0LTI6MTQ1NzIzNjg2MjQ2OnN0YWdlL1RrV1dzNXJOTktOWCIsInRvcGljIjoiVGtXV3M1ck5OS05YIiwiZXZlbnRzX3VybCI6IndzczovL2dsb2JhbC5lZXZlZS5ldmVudHMubGl2ZS12aWRlby5uZXQiLCJ3aGlwX3VybCI6Imh0dHBzOi8vYzg3MDU2N2QwOWQ3Lmdsb2JhbC1ibS53aGlwLmxpdmUtdmlkZW8ubmV0IiwidXNlcl9pZCI6InRqLTEiLCJjYXBhYmlsaXRpZXMiOnsiYWxsb3dfcHVibGlzaCI6dHJ1ZSwiYWxsb3dfc3Vic2NyaWJlIjp0cnVlfSwidmVyc2lvbiI6IjAuMCJ9.MGUCMAaJ_DjOrfcR_oW2JvrmlHtu8Jn1go46MyzLiENCgd0LGisvBbPeuCrmMSobx5ptvwIxAK9G8e5DZpLBxDx8vt1H7VGq5__GfXMN_FsmGsKiMy0HtYBMeqpovNFeC4fN2CGM6g",
+                "token",
                 stageStrategy
             ).apply {
                 stage = this
