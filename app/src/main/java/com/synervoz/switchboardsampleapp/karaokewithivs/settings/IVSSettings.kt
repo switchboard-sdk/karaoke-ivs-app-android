@@ -1,4 +1,4 @@
-package com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.fragment
+package com.synervoz.switchboardsampleapp.karaokewithivs.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater

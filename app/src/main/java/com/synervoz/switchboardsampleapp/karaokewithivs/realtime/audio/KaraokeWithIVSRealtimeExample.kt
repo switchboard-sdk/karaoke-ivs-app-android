@@ -1,4 +1,4 @@
-package com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.audio
+package com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio
 
 import android.content.Context
 import android.os.Build

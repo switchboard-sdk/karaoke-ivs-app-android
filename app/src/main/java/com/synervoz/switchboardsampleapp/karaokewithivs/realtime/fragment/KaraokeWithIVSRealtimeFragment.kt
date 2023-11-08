@@ -1,4 +1,4 @@
-package com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.fragment
+package com.synervoz.switchboardsampleapp.karaokewithivs.realtime.fragment
 
 import android.content.Intent
 import android.graphics.Color
@@ -12,7 +12,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import com.synervoz.switchboard.sdk.Codec
 import com.synervoz.switchboard.sdk.utils.AssetLoader
-import com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.audio.KaraokeWithIVSRealtimeExample
+import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio.KaraokeWithIVSRealtimeExample
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamLink
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithRealtimeIvsBinding
 import kotlinx.coroutines.CoroutineScope
