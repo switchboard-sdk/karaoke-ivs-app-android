@@ -36,8 +36,8 @@ class KaraokeWithIVSBroadcastExample(val context: Context) {
     }
 
     val audioGraph = AudioGraph()
-    val audioEngine = AudioEngine(context = context, microphoneEnabled = true, performanceMode = PerformanceMode.LOW_LATENCY,
-        micInputPreset = MicInputPreset.VoicePerformance)
+    val audioEngine = AudioEngine(context = context, microphoneEnabled = true, performanceMode = PerformanceMode.NONE,
+        micInputPreset = MicInputPreset.GENERIC)
     val audioPlayerNode = AudioPlayerNode()
     val busSplitterNode = BusSplitterNode()
     val channelSplitterNode = ChannelSplitterNode()
