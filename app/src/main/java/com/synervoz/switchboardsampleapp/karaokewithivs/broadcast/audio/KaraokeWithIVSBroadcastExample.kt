@@ -19,8 +19,10 @@ import com.synervoz.switchboard.sdk.audiographnodes.MixerNode
 import com.synervoz.switchboard.sdk.audiographnodes.MultiChannelToMonoNode
 import com.synervoz.switchboard.sdk.audiographnodes.VUMeterNode
 import com.synervoz.switchboardamazonivs.audiographnodes.IVSBroadcastSinkNode
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceConstants
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceManager
 import com.synervoz.switchboardsampleapp.karaokewithivs.audio.BroadcastListener
-import com.synervoz.switchboardsampleapp.karaokewithivs.config.endpoint
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.ingestServer
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamKey
 import com.synervoz.switchboardsuperpowered.audiographnodes.EchoNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.FlangerNode
@@ -134,8 +136,9 @@ class KaraokeWithIVSBroadcastExample(val context: Context) {
     }
 
     fun startStream() {
-//        audioPlayerNode.play()
-        session?.start(endpoint, streamKey)
+        val ingestServer = PreferenceManager.getGlobalStringPreference(PreferenceConstants.INGEST_SERVER) ?: ingestServer
+        val streamKey = PreferenceManager.getGlobalStringPreference(PreferenceConstants.STREAM_KEY) ?: streamKey
+        session?.start(ingestServer, streamKey)
     }
 
     fun stopStream() {

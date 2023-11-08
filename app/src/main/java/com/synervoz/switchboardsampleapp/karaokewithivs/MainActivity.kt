@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -16,6 +15,9 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.synervoz.switchboard.sdk.logger.Logger
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.ActivityMainBinding
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ContextHolder
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ExampleProvider
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         ExampleProvider.initialize(this)
         Logger.init()
-
+        ContextHolder.activity = this
+        PreferenceManager()
         if (!requestPermission()) return
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
@@ -79,7 +82,6 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.CAMERA
         )
 
-        Log.d("TJLOG", "requestPermission: ")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
         }

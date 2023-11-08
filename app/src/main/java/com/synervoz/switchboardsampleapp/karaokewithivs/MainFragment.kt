@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.ExampleItemBinding
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentMainBinding
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ExampleProvider
 
 class MainFragment : Fragment() {
 

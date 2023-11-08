@@ -25,12 +25,14 @@ import com.synervoz.switchboard.sdk.audiographnodes.MixerNode
 import com.synervoz.switchboard.sdk.audiographnodes.MultiChannelToMonoNode
 import com.synervoz.switchboard.sdk.audiographnodes.VUMeterNode
 import com.synervoz.switchboardamazonivs.audiographnodes.IVSBroadcastSinkNode
-import com.synervoz.switchboardsampleapp.karaokewithivs.config.endpoint
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceConstants
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceManager
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.ingestServer
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamKey
 import com.synervoz.switchboardsuperpowered.audiographnodes.EchoNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.FlangerNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.ReverbNode
-
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.token
 
 class KaraokeWithIVSRealtimeExample(val context: Context) {
 
@@ -175,7 +177,7 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
 
     fun startStream() {
 //        audioPlayerNode.play()
-        session?.start(endpoint, streamKey)
+        session?.start(ingestServer, streamKey)
         joinStage()
     }
 
@@ -212,10 +214,11 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     }
 
     private fun createStage() {
+        val token = PreferenceManager.getGlobalStringPreference(PreferenceConstants.TOKEN) ?: token
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             Stage(
                 context,
-                "token",
+                token,
                 stageStrategy
             ).apply {
                 stage = this
