@@ -21,8 +21,8 @@ object ExampleProvider {
 
     fun examples(): List<Example> {
         return listOf(
-            Example("Karaoke with Broadcast IVS", KaraokeWithIVSBroadcastFragment::class.java as Class<Fragment>),
             Example("Karaoke with Real-Time IVS (Stage)", KaraokeWithIVSRealtimeFragment::class.java as Class<Fragment>),
+            Example("Karaoke with Broadcast IVS", KaraokeWithIVSBroadcastFragment::class.java as Class<Fragment>),
             Example("Settings", IVSSettings::class.java as Class<Fragment>),
         )
     }
