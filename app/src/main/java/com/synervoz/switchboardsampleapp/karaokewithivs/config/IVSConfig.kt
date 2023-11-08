@@ -1,9 +1,10 @@
 package com.synervoz.switchboardsampleapp.karaokewithivs.config
 
-const val streamKey = "sk_us-west-2_N7chGhb9ijZZ_0rFrhGDNtW9ZoDlqWiX7bLtReqklXK"
-const val ingestServer = "rtmps://c870567d09d7.global-contribute.live-video.net:443/app/"
-const val streamLink = "https://c870567d09d7.us-west-2.playback.live-video.net/api/video/v1/us-west-2.145723686246.channel.QH17qa3VLI0B.m3u8\n\nYou can also use the above link in https://viloud.tv/hls-stream-tester/"
+//sk_us-west-2_N7chGhb9ijZZ_0rFrhGDNtW9ZoDlqWiX7bLtReqklXK
+const val streamKey = ""
 
-// AWS -> Stage -> external-stage
-// will expire on Monday afternoon (Eastern Time)
-const val token = "eyJhbGciOiJLTVMiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE2OTk5ODk1NDUsImlhdCI6MTY5OTQ3MTE0NSwianRpIjoidE5SeWloZVdrd3J2IiwicmVzb3VyY2UiOiJhcm46YXdzOml2czp1cy13ZXN0LTI6MTQ1NzIzNjg2MjQ2OnN0YWdlL0tVU3N2ZFozYXdOUCIsInRvcGljIjoiS1VTc3ZkWjNhd05QIiwiZXZlbnRzX3VybCI6IndzczovL2dsb2JhbC5lZXZlZS5ldmVudHMubGl2ZS12aWRlby5uZXQiLCJ3aGlwX3VybCI6Imh0dHBzOi8vYzg3MDU2N2QwOWQ3Lmdsb2JhbC1ibS53aGlwLmxpdmUtdmlkZW8ubmV0IiwidXNlcl9pZCI6InAxIiwiY2FwYWJpbGl0aWVzIjp7ImFsbG93X3B1Ymxpc2giOnRydWUsImFsbG93X3N1YnNjcmliZSI6dHJ1ZX0sInZlcnNpb24iOiIwLjAifQ.MGYCMQC8mewD3s4vfbkmMq8ViTRDtEYye6u_jSWT9eHe1iPAdXbQLCnCDlaqSQ4D0OOFV9kCMQD2bbrrWhyU0PU4qDPhg_aP7g2btDLua27YC4LV5gmlOp2mHyrCN0Uc2zkWTztnGM0"
+//rtmps://c870567d09d7.global-contribute.live-video.net:443/app/
+const val ingestServer = ""
+
+const val streamLink = "https://c870567d09d7.us-west-2.playback.live-video.net/api/video/v1/us-west-2.145723686246.channel.QH17qa3VLI0B.m3u8\n\nYou can also use the above link in https://viloud.tv/hls-stream-tester/"
+const val token = ""
