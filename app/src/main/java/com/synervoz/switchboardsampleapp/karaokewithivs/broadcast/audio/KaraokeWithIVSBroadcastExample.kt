@@ -94,6 +94,7 @@ class KaraokeWithIVSBroadcastExample(val context: Context) {
         flangerNode.isEnabled = false
         delayNode.isEnabled = false
         reverbNode.isEnabled = false
+        musicGainNode.gain = 0.5f
 
         audioGraph.connect(audioGraph.inputNode, splitterNode)
         audioGraph.connect(splitterNode, multiChannelToMonoNode)

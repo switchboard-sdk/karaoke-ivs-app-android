@@ -153,7 +153,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/general_padding"
                         android:max="100"
-                        android:progress="100" />
+                        android:progress="50" />
 
                 </LinearLayout>
             </LinearLayout>

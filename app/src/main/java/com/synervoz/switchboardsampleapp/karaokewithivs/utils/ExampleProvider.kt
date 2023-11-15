@@ -10,12 +10,15 @@ import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.fragment.Karaok
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.superpoweredLicenseKey
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientID
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientSecret
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.voicemodClientKey
 import com.synervoz.switchboardsuperpowered.SuperpoweredExtension
+import com.synervoz.switchboardvoicemod.VoicemodExtension
 
 object ExampleProvider {
     fun initialize(context: Context) {
         SwitchboardSDK.initialize(switchboardClientID, switchboardClientSecret)
         SuperpoweredExtension.initialize(superpoweredLicenseKey)
+        VoicemodExtension.initialize(context, voicemodClientKey)
         AmazonIVSExtension.initialize()
     }
 

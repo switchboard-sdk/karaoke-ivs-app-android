@@ -33,6 +33,7 @@ import com.synervoz.switchboardsuperpowered.audiographnodes.EchoNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.FlangerNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.ReverbNode
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.token
+import com.synervoz.switchboardvoicemod.audiographnodes.VoicemodNode
 
 class KaraokeWithIVSRealtimeExample(val context: Context) {
 
@@ -56,6 +57,7 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     val vuMeterNode = VUMeterNode()
     val splitterNode = BusSplitterNode()
     val multiChannelToMonoNode = MultiChannelToMonoNode()
+    val voicemodNode = VoicemodNode()
 
     val musicGainNode = GainNode()
     val voiceGainNode = GainNode()
@@ -130,16 +132,19 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         audioGraph.addNode(vuMeterNode)
         audioGraph.addNode(splitterNode)
         audioGraph.addNode(multiChannelToMonoNode)
+        audioGraph.addNode(voicemodNode)
 
         flangerNode.isEnabled = false
         delayNode.isEnabled = false
         reverbNode.isEnabled = false
+        musicGainNode.gain = 0.5f
 
         audioGraph.connect(audioGraph.inputNode, splitterNode)
         audioGraph.connect(splitterNode, multiChannelToMonoNode)
         audioGraph.connect(multiChannelToMonoNode, vuMeterNode)
         audioGraph.connect(splitterNode, voiceGainNode)
-        audioGraph.connect(voiceGainNode, flangerNode)
+        audioGraph.connect(voiceGainNode, voicemodNode)
+        audioGraph.connect(voicemodNode, flangerNode)
         audioGraph.connect(flangerNode, delayNode)
         audioGraph.connect(delayNode, reverbNode)
         audioGraph.connect(reverbNode, mixerNode)

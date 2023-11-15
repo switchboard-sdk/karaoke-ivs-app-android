@@ -7,14 +7,20 @@ import android.view.Choreographer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import com.synervoz.switchboard.sdk.Codec
 import com.synervoz.switchboard.sdk.utils.AssetLoader
-import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio.KaraokeWithIVSRealtimeExample
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamLink
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.voices
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithRealtimeIvsBinding
+import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio.KaraokeWithIVSRealtimeExample
+import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ContextHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -127,8 +133,39 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
                 else
                     setButtonStateInactive(binding.reverbButton)
             }
-
         }
+
+        val VoiceModadapter =
+            ArrayAdapter(ContextHolder.activity, android.R.layout.simple_spinner_item, voices)
+        binding.spinner.adapter = VoiceModadapter
+
+        binding.spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItem: String = voices[position]
+                if(selectedItem == "none") {
+                    example.voicemodNode.bypassEnabled = true
+                    return
+                }
+                binding.loadingIndicator.visibility = View.VISIBLE
+                uiScope.launch {
+                    withContext(Dispatchers.IO) {
+                        example.voicemodNode.loadVoice(selectedItem)
+                        example.voicemodNode.bypassEnabled = false
+                    }
+                    binding.loadingIndicator.visibility = View.GONE
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
 
         return binding.root
     }
