@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="@dimen/general_padding">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To test the IVS Karaoke sample app end-to-end you need two Android phones"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/general_padding"
+        android:text="- From device A open Karaoke with Real-time IVS (Stage) \n \n
+- Play Music \n \n
+- Start Streaming \n \n
+- From Device B open Real-Time IVS Listener \n \n
+- Start Listening"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/general_margin"
+        android:text="As the IVS session is recorded, you can hear the voice effects locally as well. When your Stop Streaming you can Play Recording to hear your recorded session."
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/general_margin"
+        android:text="If the volume of voice is low, please try singing into top bottom or the top microphone of the device"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/general_margin"
+        android:text="You can use your own IVS Stage tokens as well for both Publisher and Listener in Settings"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

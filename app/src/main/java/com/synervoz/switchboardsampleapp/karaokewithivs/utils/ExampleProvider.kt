@@ -12,6 +12,7 @@ import com.synervoz.switchboardsampleapp.karaokewithivs.config.superpoweredLicen
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientID
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientSecret
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.voicemodClientKey
+import com.synervoz.switchboardsampleapp.karaokewithivs.guide.GuideFragment
 import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.fragment.KaraokeWithIVSRealtimeClientFragment
 import com.synervoz.switchboardsuperpowered.SuperpoweredExtension
 //import com.synervoz.switchboardvoicemod.VoicemodExtension
@@ -31,6 +32,7 @@ object ExampleProvider {
             Example("Real-Time IVS Listener", KaraokeWithIVSRealtimeClientFragment::class.java as Class<Fragment>),
             Example("Karaoke with Broadcast IVS", KaraokeWithIVSBroadcastFragment::class.java as Class<Fragment>),
             Example("Settings", IVSSettings::class.java as Class<Fragment>),
+            Example("Guide", GuideFragment::class.java as Class<Fragment>),
         )
     }
 }

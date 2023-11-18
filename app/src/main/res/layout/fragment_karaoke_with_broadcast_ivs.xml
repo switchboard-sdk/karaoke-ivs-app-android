@@ -204,14 +204,14 @@
 
             </LinearLayout>
 
-<!--            <TextView-->
-<!--                android:id="@+id/share_link"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:layout_margin="@dimen/general_padding"-->
-<!--                android:text="Share stream link via E-mail"-->
-<!--                android:textColor="#5270B6" />-->
+            <TextView
+                android:id="@+id/share_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/general_padding"
+                android:text="Share stream link via E-mail"
+                android:textColor="#5270B6" />
 
             <Button
                 android:id="@+id/start_button"
