@@ -7,21 +7,14 @@ import android.view.Choreographer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import com.synervoz.switchboard.sdk.Codec
 import com.synervoz.switchboard.sdk.utils.AssetLoader
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamLink
-import com.synervoz.switchboardsampleapp.karaokewithivs.config.voices
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithRealtimeIvsBinding
-import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio.FXChain
 import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio.KaraokeWithIVSRealtimeExample
-import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ContextHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,13 +46,25 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
                 binding.startButton.text = "Stop Streaming"
                 example.startStream()
                 isStreaming = true
+                binding.playRecordingButton.visibility = View.GONE
             } else {
                 binding.startButton.text = "Start Streaming"
                 example.stopStream()
                 isStreaming = false
+                binding.playRecordingButton.visibility = View.VISIBLE
             }
         }
+        binding.playRecordingButton.setOnClickListener {
+            if (example.isPlayingRecording()) {
+                example.recordingPlayerNode.stop()
+                binding.playRecordingButton.text = "Play Recording"
+            } else {
+                example.recordingPlayerNode.load(example.mixedFilePath, Codec.WAV)
+                example.recordingPlayerNode.play()
+                binding.playRecordingButton.text = "Stop Recording"
+            }
 
+        }
         binding.voiceVolumeSeekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -83,7 +88,7 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
         })
 
         binding.musicPlaybackButton.setOnClickListener {
-            if (!example.isPlaying()) {
+            if (!example.isPlayingMusic()) {
                 play()
                 binding.musicPlaybackButton.text = "Pause music"
             } else {
@@ -101,6 +106,15 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
                         "House_of_the_Rising_Sun.mp3"
                     ), Codec.MP3
                 )
+
+//                example.vocalPlayerNode.load(
+//                    AssetLoader.load(
+//                        requireContext(),
+//                        "f.mp3"
+//                    ), Codec.MP3
+//                )
+
+
             }
             binding.duration.text =
                 "${(example.getSongDurationInSeconds() / 60).toInt()}m " +
@@ -110,6 +124,22 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
             updateProgressBars()
 
             binding.loadingIndicator.visibility = View.GONE
+
+            binding.distortionButton.setOnClickListener {
+                example.distortionNode.isEnabled = !example.distortionNode.isEnabled
+                if (example.distortionNode.isEnabled)
+                    setButtonStateActive(binding.distortionButton)
+                else
+                    setButtonStateInactive(binding.distortionButton)
+            }
+
+            binding.vibratoButton.setOnClickListener {
+                example.vibratoNode.isEnabled = !example.vibratoNode.isEnabled
+                if (example.vibratoNode.isEnabled)
+                    setButtonStateActive(binding.vibratoButton)
+                else
+                    setButtonStateInactive(binding.vibratoButton)
+            }
 
             binding.flanagerButton.setOnClickListener {
                 example.flangerNode.isEnabled = !example.flangerNode.isEnabled
@@ -214,7 +244,7 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
     }
 
     private fun updateUI() {
-        if (example.isPlaying()) {
+        if (example.isPlayingMusic()) {
             binding.progressSeekbar.progress =
                 (example.getProgress() * binding.progressSeekbar.max).toInt()
             binding.progressLabel.text =
@@ -234,7 +264,7 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
-                wasPlaying = example.isPlaying()
+                wasPlaying = example.isPlayingMusic()
                 if (wasPlaying) {
                     pause()
                 }

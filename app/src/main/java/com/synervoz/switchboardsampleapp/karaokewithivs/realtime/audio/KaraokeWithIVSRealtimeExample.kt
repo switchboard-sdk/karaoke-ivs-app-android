@@ -13,6 +13,8 @@ import com.amazonaws.ivs.broadcast.DeviceDiscovery
 import com.amazonaws.ivs.broadcast.LocalStageStream
 import com.amazonaws.ivs.broadcast.ParticipantInfo
 import com.amazonaws.ivs.broadcast.Stage
+import com.synervoz.switchboard.sdk.Codec
+import com.synervoz.switchboard.sdk.SwitchboardSDK
 import com.synervoz.switchboard.sdk.audioengine.AudioEngine
 import com.synervoz.switchboard.sdk.audioengine.MicInputPreset
 import com.synervoz.switchboard.sdk.audioengine.PerformanceMode
@@ -23,16 +25,20 @@ import com.synervoz.switchboard.sdk.audiographnodes.ChannelSplitterNode
 import com.synervoz.switchboard.sdk.audiographnodes.GainNode
 import com.synervoz.switchboard.sdk.audiographnodes.MixerNode
 import com.synervoz.switchboard.sdk.audiographnodes.MultiChannelToMonoNode
+import com.synervoz.switchboard.sdk.audiographnodes.RecorderNode
 import com.synervoz.switchboard.sdk.audiographnodes.SubgraphProcessorNode
 import com.synervoz.switchboard.sdk.audiographnodes.VUMeterNode
 import com.synervoz.switchboardamazonivs.audiographnodes.IVSBroadcastSinkNode
 import com.synervoz.switchboardaudioeffects.audiographnodes.ChorusNode
+import com.synervoz.switchboardaudioeffects.audiographnodes.VibratoNode
 import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceConstants
 import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceManager
 import com.synervoz.switchboardsuperpowered.audiographnodes.EchoNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.FlangerNode
 import com.synervoz.switchboardsuperpowered.audiographnodes.ReverbNode
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.token
+import com.synervoz.switchboardsuperpowered.audiographnodes.GuitarDistortionNode
+
 //import com.synervoz.switchboardvoicemod.audiographnodes.VoicemodNode
 //
 class KaraokeWithIVSRealtimeExample(val context: Context) {
@@ -40,6 +46,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     companion object {
         val TAG = this::class.java.name
     }
+    var mixedFilePath = SwitchboardSDK.getTemporaryDirectoryPath() + "mix.wav"
+    val recorderNode = RecorderNode(sampleRate = 48000, numberOfChannels = 1)
 
     val audioGraph = AudioGraph()
     val audioEngine = AudioEngine(
@@ -47,14 +55,19 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         micInputPreset = MicInputPreset.GENERIC
     )
     val audioPlayerNode = AudioPlayerNode()
+//    val vocalPlayerNode = AudioPlayerNode()
+    val recordingPlayerNode = AudioPlayerNode()
     val busSplitterNode = BusSplitterNode()
     val channelSplitterNode = ChannelSplitterNode()
     val ivsSinkNode: IVSBroadcastSinkNode
+    val distortionNode = GuitarDistortionNode()
+    val vibratoNode = VibratoNode()
     val flangerNode = FlangerNode()
     val chorusNode = ChorusNode()
     val reverbNode = ReverbNode()
     val delayNode = EchoNode()
     val mixerNode = MixerNode()
+    val outputMixer = MixerNode()
     val vuMeterNode = VUMeterNode()
     val splitterNode = BusSplitterNode()
     val multiChannelToMonoNode = MultiChannelToMonoNode()
@@ -98,6 +111,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
 
     init {
         audioPlayerNode.isLoopingEnabled = true
+        recordingPlayerNode.isLoopingEnabled = true
+//        vocalPlayerNode.isLoopingEnabled = true
         vuMeterNode.smoothingDurationMs = 100.0f
 
         createStage()
@@ -111,6 +126,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
             else -> BroadcastConfiguration.AudioSampleRate.RATE_44100
         }
 
+        Log.d("TJLOG", "sampleRate: ${sampleRate}")
+
         audioDevice =
             deviceDiscovery.createAudioInputSource(1, sampleRate, AudioDevice.Format.INT16)
         val microphoneStream = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -121,18 +138,23 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         publishStreams.add(microphoneStream)
 
         ivsSinkNode = IVSBroadcastSinkNode(audioDevice!!)
-
+//        audioGraph.addNode(vocalPlayerNode)
+        audioGraph.addNode(recordingPlayerNode)
+        audioGraph.addNode(recorderNode)
         audioGraph.addNode(musicGainNode)
         audioGraph.addNode(voiceGainNode)
         audioGraph.addNode(audioPlayerNode)
         audioGraph.addNode(busSplitterNode)
         audioGraph.addNode(channelSplitterNode)
         audioGraph.addNode(ivsSinkNode)
+        audioGraph.addNode(distortionNode)
+        audioGraph.addNode(vibratoNode)
         audioGraph.addNode(flangerNode)
         audioGraph.addNode(chorusNode)
         audioGraph.addNode(delayNode)
         audioGraph.addNode(reverbNode)
         audioGraph.addNode(mixerNode)
+        audioGraph.addNode(outputMixer)
         audioGraph.addNode(vuMeterNode)
         audioGraph.addNode(splitterNode)
         audioGraph.addNode(multiChannelToMonoNode)
@@ -144,15 +166,22 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         reverbNode.isEnabled = false
         musicGainNode.gain = 0.5f
         delayNode.beats = 1f
-
+        vibratoNode.isEnabled = false
+        chorusNode.isEnabled = false
+        distortionNode.isEnabled = false
+        distortionNode.drive = 0f
+        distortionNode.gainDecibel = -25f
+        distortionNode.distortion0 = 1f
         audioGraph.connect(audioGraph.inputNode, splitterNode)
+//        audioGraph.connect(vocalPlayerNode, splitterNode)
+
         audioGraph.connect(splitterNode, multiChannelToMonoNode)
         audioGraph.connect(multiChannelToMonoNode, vuMeterNode)
         audioGraph.connect(splitterNode, voiceGainNode)
         audioGraph.connect(voiceGainNode, harmonizerChainNode)
-        audioGraph.connect(harmonizerChainNode, chorusNode) //harmonizer + audiotuner
-//        audioGraph.connect(voiceGainNode, flangerNode)
-//        audioGraph.connect(voicemodNode, flangerNode)
+        audioGraph.connect(harmonizerChainNode, vibratoNode)
+        audioGraph.connect(vibratoNode, distortionNode)
+        audioGraph.connect(distortionNode, chorusNode)
         audioGraph.connect(chorusNode, flangerNode)
         audioGraph.connect(flangerNode, delayNode)
         audioGraph.connect(delayNode, reverbNode)
@@ -163,12 +192,16 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         audioGraph.connect(busSplitterNode, mixerNode)
         audioGraph.connect(mixerNode, channelSplitterNode)
         audioGraph.connect(channelSplitterNode, ivsSinkNode)
+        audioGraph.connect(channelSplitterNode, recorderNode)
 
-        audioGraph.connect(busSplitterNode, audioGraph.outputNode)
+        audioGraph.connect(busSplitterNode, outputMixer)
+        audioGraph.connect(recordingPlayerNode, outputMixer)
+        audioGraph.connect(outputMixer, audioGraph.outputNode)
         harmonizerChainNode.setAudioGraph(harmonizer.audioGraph)
     }
 
-    fun isPlaying() = audioPlayerNode.isPlaying
+    fun isPlayingMusic() = audioPlayerNode.isPlaying
+    fun isPlayingRecording() = recordingPlayerNode.isPlaying
 
     fun play() {
         audioPlayerNode.play()
@@ -192,11 +225,15 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
 
     fun startStream() {
 //        audioPlayerNode.play()
+//        vocalPlayerNode.play()
+        recorderNode.start()
         joinStage()
     }
 
     fun stopStream() {
-        audioPlayerNode.pause()
+        recorderNode.stop(mixedFilePath, Codec.WAV)
+//        audioPlayerNode.pause()
+//        vocalPlayerNode.pause()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             stage?.leave()
         }

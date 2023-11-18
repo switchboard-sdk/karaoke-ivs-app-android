@@ -48,17 +48,17 @@ class HarmonizerEffect : FXChain {
 
     fun setHighPreset() {
         avpcNode.isEnabled = false
-        avpcNode.speed = AutomaticVocalPitchCorrectionNode.TunerSpeed.EXTREME
+        avpcNode.speed = AutomaticVocalPitchCorrectionNode.TunerSpeed.MEDIUM
         avpcNode.range = AutomaticVocalPitchCorrectionNode.TunerRange.WIDE
         avpcNode.scale = AutomaticVocalPitchCorrectionNode.TunerScale.FMAJOR
 
         lowPitchShiftNode.isEnabled = false
         lowPitchShiftNode.pitchShiftCents = -400
-        lowPitchShiftGainNode.gain = 0.8f
+        lowPitchShiftGainNode.gain = 0.55f
 
         highPitchShiftNode.isEnabled = false
         highPitchShiftNode.pitchShiftCents = 400
-        highPitchShiftGainNode.gain = 1.0f
+        highPitchShiftGainNode.gain = 0.25f
     }
 
     init {

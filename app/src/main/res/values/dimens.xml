@@ -2,4 +2,6 @@
 <resources>
     <dimen name="general_margin">20dp</dimen>
     <dimen name="general_padding">10dp</dimen>
+    <dimen name="effects_button_width">100dp</dimen>
+    <dimen name="effects_button_height">30dp</dimen>
 </resources>

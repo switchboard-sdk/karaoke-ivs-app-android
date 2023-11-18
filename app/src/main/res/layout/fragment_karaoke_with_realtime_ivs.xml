@@ -166,87 +166,137 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:layout_marginTop="@dimen/general_padding">
 
-                <Button
-                    android:id="@+id/autotune_button"
-                    android:layout_width="0dp"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="#D3D3D3"
-                    android:text="Auto Tune"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/harmonizer_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#D3D3D3"
-                    android:text="Harmonize"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
 
-                <Button
-                    android:id="@+id/flanager_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#D3D3D3"
-                    android:text="Flanger"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                        <Button
+                            android:id="@+id/autotune_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Auto Tune"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
 
+                        <Button
+                            android:id="@+id/harmonizer_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Harmonize"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
 
-            </LinearLayout>
+                        <Button
+                            android:id="@+id/vibrato_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Vibrato"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <Button
-                    android:id="@+id/chorus_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="#D3D3D3"
-                    android:text="Chorus"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
-
-                <Button
-                    android:id="@+id/delay_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#D3D3D3"
-                    android:text="Delay"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
-
-                <Button
-                    android:id="@+id/reverb_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#D3D3D3"
-                    android:text="Reverb"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                        <Button
+                            android:id="@+id/flanager_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Flanger"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
 
 
-            </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+
+                        <Button
+                            android:id="@+id/distortion_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Distortion"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/chorus_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Chorus"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/delay_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Delay"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/reverb_button"
+                            android:layout_width="@dimen/effects_button_width"
+                            android:layout_height="@dimen/effects_button_height"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="#D3D3D3"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Reverb"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
 
             <!--            <LinearLayout
@@ -277,6 +327,16 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/general_margin"
                 android:text="Start Streaming" />
+
+
+            <Button
+                android:id="@+id/play_recording_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/general_padding"
+                android:visibility="visible"
+                android:text="Play recording" />
 
 
         </LinearLayout>
