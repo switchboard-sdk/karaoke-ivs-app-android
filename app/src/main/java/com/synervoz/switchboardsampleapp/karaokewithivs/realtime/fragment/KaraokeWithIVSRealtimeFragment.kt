@@ -3,6 +3,7 @@ package com.synervoz.switchboardsampleapp.karaokewithivs.realtime.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Choreographer
 import android.view.LayoutInflater
 import android.view.View
@@ -59,9 +60,12 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
                 example.recordingPlayerNode.stop()
                 binding.playRecordingButton.text = "Play Recording"
             } else {
-                example.recordingPlayerNode.load(example.mixedFilePath, Codec.WAV)
-                example.recordingPlayerNode.play()
-                binding.playRecordingButton.text = "Stop Recording"
+                val loaded = example.recordingPlayerNode.load(example.mixedFilePath, Codec.WAV)
+                if (loaded) {
+                    example.recordingPlayerNode.play()
+                    binding.playRecordingButton.text = "Stop Recording"
+                }
+
             }
 
         }

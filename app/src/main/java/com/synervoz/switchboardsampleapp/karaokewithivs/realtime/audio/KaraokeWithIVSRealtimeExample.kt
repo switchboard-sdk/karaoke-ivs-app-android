@@ -46,6 +46,7 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     companion object {
         val TAG = this::class.java.name
     }
+
     var mixedFilePath = SwitchboardSDK.getTemporaryDirectoryPath() + "mix.wav"
     val recorderNode = RecorderNode(sampleRate = 48000, numberOfChannels = 1)
 
@@ -55,7 +56,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         micInputPreset = MicInputPreset.GENERIC
     )
     val audioPlayerNode = AudioPlayerNode()
-//    val vocalPlayerNode = AudioPlayerNode()
+
+    //    val vocalPlayerNode = AudioPlayerNode()
     val recordingPlayerNode = AudioPlayerNode()
     val busSplitterNode = BusSplitterNode()
     val channelSplitterNode = ChannelSplitterNode()
@@ -226,6 +228,9 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     fun startStream() {
 //        audioPlayerNode.play()
 //        vocalPlayerNode.play()
+        if (isPlayingRecording()) {
+            recordingPlayerNode.stop()
+        }
         recorderNode.start()
         joinStage()
     }
@@ -265,7 +270,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     }
 
     private fun createStage() {
-        val token = PreferenceManager.getGlobalStringPreference(PreferenceConstants.PUBLISHER_TOKEN) ?: token
+        val token = PreferenceManager.getGlobalStringPreference(PreferenceConstants.PUBLISHER_TOKEN)
+            ?: token
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             Stage(
                 context,
