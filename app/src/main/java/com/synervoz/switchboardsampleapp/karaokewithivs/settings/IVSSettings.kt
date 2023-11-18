@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.clientToken
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.ingestServer
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamKey
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.token
@@ -29,13 +30,27 @@ class IVSSettings : Fragment() {
         val ingestServer =
             PreferenceManager.getGlobalStringPreference(PreferenceConstants.INGEST_SERVER)
                 ?: ingestServer
+
         val streamKey =
             PreferenceManager.getGlobalStringPreference(PreferenceConstants.STREAM_KEY) ?: streamKey
-        val token = PreferenceManager.getGlobalStringPreference(PreferenceConstants.TOKEN) ?: token
+
+        val token = PreferenceManager.getGlobalStringPreference(PreferenceConstants.PUBLISHER_TOKEN)
+            ?: token
+
+        val Clienttoken =
+            PreferenceManager.getGlobalStringPreference(PreferenceConstants.CLIENT_TOKEN) ?: clientToken
 
         binding.ingestServerEdittext.setText(ingestServer)
         binding.streamKeyEdittext.setText(streamKey)
         binding.tokenEdittext.setText(token)
+        binding.listenerTokenEdittext.setText(Clienttoken)
+
+        binding.clearButton.setOnClickListener {
+            binding.ingestServerEdittext.text.clear()
+            binding.streamKeyEdittext.text.clear()
+            binding.tokenEdittext.text.clear()
+            binding.listenerTokenEdittext.text.clear()
+        }
 
         binding.saveButton.setOnClickListener {
             PreferenceManager.setGlobalStringPreference(
@@ -47,8 +62,12 @@ class IVSSettings : Fragment() {
                 binding.streamKeyEdittext.text.toString()
             )
             PreferenceManager.setGlobalStringPreference(
-                PreferenceConstants.TOKEN,
+                PreferenceConstants.PUBLISHER_TOKEN,
                 binding.tokenEdittext.text.toString()
+            )
+            PreferenceManager.setGlobalStringPreference(
+                PreferenceConstants.CLIENT_TOKEN,
+                binding.listenerTokenEdittext.text.toString()
             )
         }
 

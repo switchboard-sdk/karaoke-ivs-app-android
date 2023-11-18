@@ -19,6 +19,7 @@ import com.synervoz.switchboard.sdk.utils.AssetLoader
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.streamLink
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.voices
 import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.FragmentKaraokeWithRealtimeIvsBinding
+import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio.FXChain
 import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.audio.KaraokeWithIVSRealtimeExample
 import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ContextHolder
 import kotlinx.coroutines.CoroutineScope
@@ -110,12 +111,36 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
 
             binding.loadingIndicator.visibility = View.GONE
 
-            binding.chorusButton.setOnClickListener {
+            binding.flanagerButton.setOnClickListener {
                 example.flangerNode.isEnabled = !example.flangerNode.isEnabled
                 if (example.flangerNode.isEnabled)
+                    setButtonStateActive(binding.flanagerButton)
+                else
+                    setButtonStateInactive(binding.flanagerButton)
+            }
+
+            binding.chorusButton.setOnClickListener {
+                example.chorusNode.isEnabled = !example.chorusNode.isEnabled
+                if (example.chorusNode.isEnabled)
                     setButtonStateActive(binding.chorusButton)
                 else
                     setButtonStateInactive(binding.chorusButton)
+            }
+
+            binding.autotuneButton.setOnClickListener {
+                example.harmonizer.autoTunerisEnabled = !example.harmonizer.autoTunerisEnabled
+                if (example.harmonizer.autoTunerisEnabled)
+                    setButtonStateActive(binding.autotuneButton)
+                else
+                    setButtonStateInactive(binding.autotuneButton)
+            }
+
+            binding.harmonizerButton.setOnClickListener {
+                example.harmonizer.harmonizerIsEnabled = !example.harmonizer.harmonizerIsEnabled
+                if (example.harmonizer.harmonizerIsEnabled)
+                    setButtonStateActive(binding.harmonizerButton)
+                else
+                    setButtonStateInactive(binding.harmonizerButton)
             }
 
             binding.delayButton.setOnClickListener {
@@ -135,36 +160,36 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
             }
         }
 
-        val VoiceModadapter =
-            ArrayAdapter(ContextHolder.activity, android.R.layout.simple_spinner_item, voices)
-        binding.spinner.adapter = VoiceModadapter
-
-        binding.spinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedItem: String = voices[position]
-                if(selectedItem == "none") {
-                    example.voicemodNode.bypassEnabled = true
-                    return
-                }
-                binding.loadingIndicator.visibility = View.VISIBLE
-                uiScope.launch {
-                    withContext(Dispatchers.IO) {
-                        example.voicemodNode.loadVoice(selectedItem)
-                        example.voicemodNode.bypassEnabled = false
-                    }
-                    binding.loadingIndicator.visibility = View.GONE
-                }
-
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
+//        val VoiceModadapter =
+//            ArrayAdapter(ContextHolder.activity, android.R.layout.simple_spinner_item, voices)
+//        binding.spinner.adapter = VoiceModadapter
+//
+//        binding.spinner.onItemSelectedListener = object : OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val selectedItem: String = voices[position]
+//                if(selectedItem == "none") {
+//                    example.voicemodNode.bypassEnabled = true
+//                    return
+//                }
+//                binding.loadingIndicator.visibility = View.VISIBLE
+//                uiScope.launch {
+//                    withContext(Dispatchers.IO) {
+//                        example.voicemodNode.loadVoice(selectedItem)
+//                        example.voicemodNode.bypassEnabled = false
+//                    }
+//                    binding.loadingIndicator.visibility = View.GONE
+//                }
+//
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//            }
+//        }
 
 
         return binding.root

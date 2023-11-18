@@ -14,8 +14,8 @@ android {
         applicationId "com.synervoz.switchboardsampleapp.karaokewithivs"
         minSdk 26
         targetSdk 33
-        versionCode 4
-        versionName "1.4"
+        versionCode 5
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -52,7 +52,8 @@ dependencies {
     implementation(files("libs/SwitchboardSDK-release.aar"))
     implementation(files("libs/SwitchboardAmazonIVS-release.aar"))
     implementation(files("libs/SwitchboardSuperpowered-release.aar"))
-    implementation(files("libs/SwitchboardVoicemod-release.aar"))
+    implementation(files("libs/SwitchboardAudioEffects-release.aar"))
+//    implementation(files("libs/SwitchboardVoicemod-release.aar"))
     implementation("com.amazonaws:ivs-broadcast:1.12.1:stages@aar")
 
     implementation 'androidx.core:core-ktx:1.9.0'

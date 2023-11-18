@@ -21,11 +21,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/general_padding"
-            android:text="Token"
+            android:text="Publisher Token"
             android:textSize="16sp" />
 
         <EditText
             android:id="@+id/token_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/general_padding"
+            android:layout_marginBottom="@dimen/general_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/general_padding"
+            android:text="Listener Token"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/listener_token_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/general_padding"
@@ -66,6 +80,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/general_padding" />
 
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/general_margin"
+            android:text="Clear All" />
 
         <Button
             android:id="@+id/save_button"

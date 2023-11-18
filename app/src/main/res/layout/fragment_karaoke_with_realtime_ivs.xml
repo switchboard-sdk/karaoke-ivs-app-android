@@ -173,13 +173,55 @@
                 android:padding="5dp">
 
                 <Button
+                    android:id="@+id/autotune_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#D3D3D3"
+                    android:text="Auto Tune"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/harmonizer_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#D3D3D3"
+                    android:text="Harmonize"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/flanager_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#D3D3D3"
+                    android:text="Flanger"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <Button
                     android:id="@+id/chorus_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="#D3D3D3"
-                    android:text="Flanger"
-                    android:textColor="@color/black" />
+                    android:text="Chorus"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/delay_button"
@@ -189,7 +231,8 @@
                     android:layout_weight="1"
                     android:backgroundTint="#D3D3D3"
                     android:text="Delay"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/reverb_button"
@@ -199,30 +242,33 @@
                     android:layout_weight="1"
                     android:backgroundTint="#D3D3D3"
                     android:text="Reverb"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/general_padding"
-                android:orientation="horizontal"
-                android:padding="5dp">
 
-                <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="VoiceMod effect"
-                    android:textSize="16sp" />
+            <!--            <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/general_padding"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
 
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/general_padding" />
+                            <TextView
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:text="VoiceMod effect"
+                                android:textSize="16sp" />
 
-            </LinearLayout>
+                            <Spinner
+                                android:id="@+id/spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/general_padding" />
+
+                        </LinearLayout>-->
 
             <Button
                 android:id="@+id/start_button"

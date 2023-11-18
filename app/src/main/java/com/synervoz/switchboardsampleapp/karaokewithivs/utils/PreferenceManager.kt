@@ -7,7 +7,8 @@ object PreferenceConstants {
     const val PREFERENCES_INITIALIZED = "initialized"
     const val INGEST_SERVER = "INGEST_SERVER"
     const val STREAM_KEY = "STREAM_KEY"
-    const val TOKEN = "TOKEN"
+    const val PUBLISHER_TOKEN = "TOKEN"
+    const val CLIENT_TOKEN = "CLIENT_TOKEN"
 }
 
 class PreferenceManager() {
@@ -31,7 +32,8 @@ class PreferenceManager() {
             setGlobalBooleanPreference(PreferenceConstants.PREFERENCES_INITIALIZED, true)
             setGlobalStringPreference(PreferenceConstants.INGEST_SERVER, null)
             setGlobalStringPreference(PreferenceConstants.STREAM_KEY, null)
-            setGlobalStringPreference(PreferenceConstants.TOKEN, null)
+            setGlobalStringPreference(PreferenceConstants.PUBLISHER_TOKEN, null)
+            setGlobalStringPreference(PreferenceConstants.CLIENT_TOKEN, null)
         }
 
         fun getGlobalStringPreference(key: String?): String? {
