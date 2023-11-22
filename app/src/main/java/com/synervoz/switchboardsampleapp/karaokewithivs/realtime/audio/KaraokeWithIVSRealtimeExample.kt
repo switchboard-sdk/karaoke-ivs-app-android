@@ -53,8 +53,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
 
     val audioGraph = AudioGraph()
     val audioEngine = AudioEngine(
-        context = context, microphoneEnabled = true, performanceMode = PerformanceMode.NONE,
-        micInputPreset = MicInputPreset.GENERIC
+        context = context, microphoneEnabled = true, performanceMode = PerformanceMode.LOW_LATENCY,
+        micInputPreset = MicInputPreset.VoicePerformance
     )
     val audioPlayerNode = AudioPlayerNode()
 
@@ -216,7 +216,6 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     fun isPlayingRecording() = recordingPlayerNode.isPlaying
 
     fun play() {
-        AudioRouter.resetInputAndOutputDevice()
         audioPlayerNode.play()
     }
 
