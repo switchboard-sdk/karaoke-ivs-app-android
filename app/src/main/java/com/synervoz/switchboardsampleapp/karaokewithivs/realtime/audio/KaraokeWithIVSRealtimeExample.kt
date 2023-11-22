@@ -16,6 +16,7 @@ import com.amazonaws.ivs.broadcast.Stage
 import com.synervoz.switchboard.sdk.Codec
 import com.synervoz.switchboard.sdk.SwitchboardSDK
 import com.synervoz.switchboard.sdk.audioengine.AudioEngine
+import com.synervoz.switchboard.sdk.audioengine.AudioRouter
 import com.synervoz.switchboard.sdk.audioengine.MicInputPreset
 import com.synervoz.switchboard.sdk.audioengine.PerformanceMode
 import com.synervoz.switchboard.sdk.audiograph.AudioGraph
@@ -60,6 +61,9 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     //    val vocalPlayerNode = AudioPlayerNode()
     val recordingPlayerNode = AudioPlayerNode()
     val busSplitterNode = BusSplitterNode()
+    val volumeBusSplitterNode = BusSplitterNode()
+    val volumeOutputGainNode = GainNode()
+
     val channelSplitterNode = ChannelSplitterNode()
     val ivsSinkNode: IVSBroadcastSinkNode
     val distortionNode = GuitarDistortionNode()
@@ -147,6 +151,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         audioGraph.addNode(voiceGainNode)
         audioGraph.addNode(audioPlayerNode)
         audioGraph.addNode(busSplitterNode)
+        audioGraph.addNode(volumeBusSplitterNode)
+        audioGraph.addNode(volumeOutputGainNode)
         audioGraph.addNode(channelSplitterNode)
         audioGraph.addNode(ivsSinkNode)
         audioGraph.addNode(distortionNode)
@@ -174,9 +180,10 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         distortionNode.drive = 0f
         distortionNode.gainDecibel = -25f
         distortionNode.distortion0 = 1f
+        volumeOutputGainNode.gain = 0f
+
         audioGraph.connect(audioGraph.inputNode, splitterNode)
 //        audioGraph.connect(vocalPlayerNode, splitterNode)
-
         audioGraph.connect(splitterNode, multiChannelToMonoNode)
         audioGraph.connect(multiChannelToMonoNode, vuMeterNode)
         audioGraph.connect(splitterNode, voiceGainNode)
@@ -187,7 +194,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
         audioGraph.connect(chorusNode, flangerNode)
         audioGraph.connect(flangerNode, delayNode)
         audioGraph.connect(delayNode, reverbNode)
-        audioGraph.connect(reverbNode, mixerNode)
+        audioGraph.connect(reverbNode, volumeBusSplitterNode)
+        audioGraph.connect(volumeBusSplitterNode, mixerNode)
 
         audioGraph.connect(audioPlayerNode, musicGainNode)
         audioGraph.connect(musicGainNode, busSplitterNode)
@@ -198,6 +206,8 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
 
         audioGraph.connect(busSplitterNode, outputMixer)
         audioGraph.connect(recordingPlayerNode, outputMixer)
+        audioGraph.connect(volumeBusSplitterNode, volumeOutputGainNode)
+        audioGraph.connect(volumeOutputGainNode, outputMixer)
         audioGraph.connect(outputMixer, audioGraph.outputNode)
         harmonizerChainNode.setAudioGraph(harmonizer.audioGraph)
     }
@@ -206,6 +216,7 @@ class KaraokeWithIVSRealtimeExample(val context: Context) {
     fun isPlayingRecording() = recordingPlayerNode.isPlaying
 
     fun play() {
+        AudioRouter.resetInputAndOutputDevice()
         audioPlayerNode.play()
     }
 

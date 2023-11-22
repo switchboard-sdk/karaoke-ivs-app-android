@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.synervoz.switchboard.sdk.Codec
 import com.synervoz.switchboard.sdk.utils.AssetLoader
@@ -41,6 +42,16 @@ class KaraokeWithIVSRealtimeFragment : Fragment() {
         binding = FragmentKaraokeWithRealtimeIvsBinding.inflate(inflater, container, false)
 
         example = KaraokeWithIVSRealtimeExample(requireContext())
+
+        binding.volumeOutputSwitch.setTextColor(TextView(context).textColors)
+
+        binding.volumeOutputSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                example.volumeOutputGainNode.gain = 1.0f
+            } else {
+                example.volumeOutputGainNode.gain = 0.0f
+            }
+        }
 
         binding.startButton.setOnClickListener {
             if (!isStreaming) {
