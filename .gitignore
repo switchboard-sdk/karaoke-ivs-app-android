@@ -1,0 +1,27 @@
+
+# Intellij
+*.iml
+/.idea
+
+
+# Platform specific files
+.DS_Store
+
+# Gradle Files
+.gradle
+/local.properties
+/build
+/generated
+/mapfiles
+/captures
+.externalNativeBuild
+
+# cmake
+/distribution
+/.idea/deploymentTargetDropDown.xml
+/.idea/gradle.properties
+/.idea/.gitignore
+
+libs/
+
+app/google-services.json

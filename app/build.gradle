@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.appdistribution'
+}
+
+android {
+    namespace 'com.synervoz.switchboardsampleapp.karaokewithivs'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.synervoz.switchboardsampleapp.karaokewithivs"
+        minSdk 26
+        targetSdk 33
+        versionCode 9
+        versionName "1.9"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    implementation(files("../libs/SwitchboardSDK.aar"))
+    implementation(files("../libs/SwitchboardAmazonIVS-realtime.aar"))
+    implementation(files("../libs/SwitchboardSuperpowered.aar"))
+    implementation(files("../libs/SwitchboardAudioEffects.aar"))
+
+    implementation("com.amazonaws:ivs-broadcast:1.13.4:stages@aar")
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
