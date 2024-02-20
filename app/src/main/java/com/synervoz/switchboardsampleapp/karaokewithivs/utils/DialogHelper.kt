@@ -11,7 +11,7 @@ class DialogHelper {
     companion object {
         fun create(context:Context, content: String) {
             var builder = AlertDialog.Builder(context)
-            builder.setTitle("Song Credits")
+            builder.setTitle("Missing settings")
 
             var scrollView = ScrollView(context)
             var textView = TextView(context)
