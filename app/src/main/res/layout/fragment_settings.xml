@@ -45,40 +45,6 @@
             android:layout_marginTop="@dimen/general_padding"
             android:layout_marginBottom="@dimen/general_margin" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/general_margin"
-            android:text="Broadcast IVS Settings"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/general_padding"
-            android:text="Stream Key"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/stream_key_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/general_padding" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/general_padding"
-            android:text="Ingest Server"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/ingest_server_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/general_padding" />
 
         <Button
             android:id="@+id/clear_button"

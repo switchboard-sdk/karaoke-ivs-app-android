@@ -6,7 +6,6 @@ import com.synervoz.switchboard.sdk.SwitchboardSDK
 import com.synervoz.switchboardamazonivs.AmazonIVSExtension
 import com.synervoz.switchboardaudioeffects.AudioEffectsExtension
 import com.synervoz.switchboardsampleapp.karaokewithivs.settings.IVSSettings
-import com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.fragment.KaraokeWithIVSBroadcastFragment
 import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.fragment.KaraokeWithIVSRealtimeFragment
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.superpoweredLicenseKey
 import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientID
@@ -27,7 +26,6 @@ object ExampleProvider {
         return listOf(
             Example("Karaoke with Real-Time IVS (Stage)", KaraokeWithIVSRealtimeFragment::class.java as Class<Fragment>),
             Example("Real-Time IVS Listener", KaraokeWithIVSRealtimeClientFragment::class.java as Class<Fragment>),
-            Example("Karaoke with Broadcast IVS", KaraokeWithIVSBroadcastFragment::class.java as Class<Fragment>),
             Example("Settings", IVSSettings::class.java as Class<Fragment>),
             Example("Guide", GuideFragment::class.java as Class<Fragment>),
         )

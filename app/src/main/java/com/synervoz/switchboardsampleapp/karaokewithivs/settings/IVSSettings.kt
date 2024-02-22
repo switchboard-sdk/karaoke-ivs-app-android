@@ -23,38 +23,21 @@ class IVSSettings : Fragment() {
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        val ingestServer =
-            PreferenceManager.getGlobalStringPreference(PreferenceConstants.INGEST_SERVER)
-
-        val streamKey =
-            PreferenceManager.getGlobalStringPreference(PreferenceConstants.STREAM_KEY)
 
         val token = PreferenceManager.getGlobalStringPreference(PreferenceConstants.PUBLISHER_TOKEN)
 
         val Clienttoken =
             PreferenceManager.getGlobalStringPreference(PreferenceConstants.CLIENT_TOKEN)
 
-        binding.ingestServerEdittext.setText(ingestServer)
-        binding.streamKeyEdittext.setText(streamKey)
         binding.tokenEdittext.setText(token)
         binding.listenerTokenEdittext.setText(Clienttoken)
 
         binding.clearButton.setOnClickListener {
-            binding.ingestServerEdittext.text.clear()
-            binding.streamKeyEdittext.text.clear()
             binding.tokenEdittext.text.clear()
             binding.listenerTokenEdittext.text.clear()
         }
 
         binding.saveButton.setOnClickListener {
-            PreferenceManager.setGlobalStringPreference(
-                PreferenceConstants.INGEST_SERVER,
-                binding.ingestServerEdittext.text.toString()
-            )
-            PreferenceManager.setGlobalStringPreference(
-                PreferenceConstants.STREAM_KEY,
-                binding.streamKeyEdittext.text.toString()
-            )
             PreferenceManager.setGlobalStringPreference(
                 PreferenceConstants.PUBLISHER_TOKEN,
                 binding.tokenEdittext.text.toString()
