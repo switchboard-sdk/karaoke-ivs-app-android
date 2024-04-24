@@ -10,7 +10,7 @@ NOTE: The main branch features a more advanced version of the Karaoke App. For t
 
 <a href="https://docs.aws.amazon.com/ivs/" target="_blank">Amazon IVS</a>
 
-<a href="https://community.aws/editor/posts/preview/content/2bjOZXGNZtYebdF5GQvE5Tk1SK2?v=2bjOZSpnvaWYGh8eN6OqPd9vvit" target="_blank">Blog post</a> 
+<a href="https://community.aws/content/2bjOZXGNZtYebdF5GQvE5Tk1SK2/add-interactive-audio-to-amazon-ivs-live-streams-with-the-switchboard-sdk-karaoke-app-example" target="_blank">Blog post</a> 
 
 ## Setup
 
