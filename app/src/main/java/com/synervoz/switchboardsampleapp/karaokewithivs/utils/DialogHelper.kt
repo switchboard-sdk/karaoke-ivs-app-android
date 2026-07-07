@@ -1,16 +1,17 @@
 package com.synervoz.switchboardsampleapp.karaokewithivs.utils
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.text.method.LinkMovementMethod
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 
 class DialogHelper {
     companion object {
-        fun create(context:Context, content: String) {
-            var builder = AlertDialog.Builder(context)
+        // Dialogs need an Activity context for a valid window token; the examples run on the
+        // application context, so use the held Activity.
+        fun create(context: Context, content: String) {
+            var builder = AlertDialog.Builder(ContextHolder.activity)
             builder.setTitle("Missing settings")
 
             var scrollView = ScrollView(context)
