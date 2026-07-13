@@ -3,122 +3,153 @@ package com.synervoz.switchboardsampleapp.karaokewithivs
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import android.view.WindowManager
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import com.synervoz.switchboard.sdk.logger.Logger
-import com.synervoz.switchboardsampleapp.karaokewithivs.databinding.ActivityMainBinding
+import com.synervoz.switchboard.sdk.Switchboard
+import com.synervoz.switchboardamazonivs.AmazonIVSExtension
+import com.synervoz.switchboardaudioeffects.AudioEffectsExtension
+import com.synervoz.switchboardsampleapp.karaokewithivs.broadcast.ui.BroadcastScreen
+import com.synervoz.switchboardsampleapp.karaokewithivs.client.ui.ClientScreen
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.superpoweredLicenseKey
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientID
+import com.synervoz.switchboardsampleapp.karaokewithivs.config.switchboardClientSecret
+import com.synervoz.switchboardsampleapp.karaokewithivs.guide.GuideScreen
+import com.synervoz.switchboardsampleapp.karaokewithivs.realtime.ui.RealtimeScreen
+import com.synervoz.switchboardsampleapp.karaokewithivs.settings.SettingsScreen
+import com.synervoz.switchboardsampleapp.karaokewithivs.ui.theme.KaraokeWithIVSTheme
 import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ContextHolder
-import com.synervoz.switchboardsampleapp.karaokewithivs.utils.ExampleProvider
 import com.synervoz.switchboardsampleapp.karaokewithivs.utils.PreferenceManager
+import com.synervoz.switchboardsuperpowered.SuperpoweredExtension
 
-class MainActivity : AppCompatActivity() {
+private enum class Screen { LIST, REALTIME, CLIENT, BROADCAST, SETTINGS, GUIDE }
 
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        ExampleProvider.initialize(this)
-        Logger.init()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         ContextHolder.activity = this
         PreferenceManager()
-        if (!requestPermission()) return
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                replace<MainFragment>(R.id.container, MainFragment.TAG)
-                setReorderingAllowed(true)
-            }
-        }
-    }
 
-    fun pushFragment(fragment: Fragment) {
-        supportFragmentManager.commit {
-            add(R.id.container, fragment, fragment.javaClass.name)
-            setReorderingAllowed(true)
-            addToBackStack(fragment.javaClass.name)
-        }
-        // Avoid clicks to propagate from the top fragment to the bottom MainFragment
-        supportFragmentManager.findFragmentByTag(MainFragment.TAG)?.view?.visibility = View.GONE
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode != 0 || grantResults.isEmpty() || grantResults.size != permissions.size) return
-        var hasAllPermissions = true
-
-        for (grantResult in grantResults)
-            if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                hasAllPermissions = false
-                Toast.makeText(
-                    applicationContext,
-                    "Please allow all permissions for the app.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        if (hasAllPermissions) {
-            supportFragmentManager.commit {
-                replace<MainFragment>(R.id.container)
-                setReorderingAllowed(true)
-            }
-        }
-    }
-
-    private fun requestPermission(): Boolean {
-        val permissions: MutableList<String> = mutableListOf(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA
+        // Load the extensions, then initialize with all three listed so their v3 JSON node factories
+        // register (Superpowered.*, AudioEffects.*, AmazonIVS.Sink).
+        SuperpoweredExtension.load()
+        AudioEffectsExtension.load()
+        AmazonIVSExtension.load()
+        Switchboard.initialize(
+            this,
+            switchboardClientID,
+            switchboardClientSecret,
+            mapOf(
+                "Superpowered" to mapOf("superpoweredLicenseKey" to superpoweredLicenseKey),
+                "AudioEffects" to emptyMap<String, Any>(),
+                "AmazonIVS" to emptyMap<String, Any>(),
+            ),
         )
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            permissions.add(Manifest.permission.BLUETOOTH_CONNECT)
-        }
-
-        for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    permission
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(this, permissions.toTypedArray(), 0)
-                return false
+        setContent {
+            KaraokeWithIVSTheme {
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                    PermissionGate { AppNavigation() }
+                }
             }
         }
+    }
+}
 
-        return true
+@Composable
+private fun AppNavigation() {
+    var screen by remember { mutableStateOf(Screen.LIST) }
+    val back = { screen = Screen.LIST }
+    when (screen) {
+        Screen.LIST -> ExampleList(onSelect = { screen = it })
+        Screen.REALTIME -> RealtimeScreen(onBack = back)
+        Screen.CLIENT -> ClientScreen(onBack = back)
+        Screen.BROADCAST -> BroadcastScreen(onBack = back)
+        Screen.SETTINGS -> SettingsScreen(onBack = back)
+        Screen.GUIDE -> GuideScreen(onBack = back)
+    }
+}
+
+@Composable
+private fun ExampleList(onSelect: (Screen) -> Unit) {
+    val examples = listOf(
+        "Karaoke with Real-Time IVS (Stage)" to Screen.REALTIME,
+        "Real-Time IVS Listener" to Screen.CLIENT,
+        "Karaoke with Broadcast IVS" to Screen.BROADCAST,
+        "Settings" to Screen.SETTINGS,
+        "Guide" to Screen.GUIDE,
+    )
+    Column(modifier = Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.Center) {
+        Text("Karaoke with IVS", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(24.dp))
+        examples.forEach { (title, target) ->
+            Button(onClick = { onSelect(target) }, modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                Text(title)
+            }
+        }
+    }
+}
+
+@Composable
+private fun PermissionGate(content: @Composable () -> Unit) {
+    val context = LocalContext.current
+    val permissions = buildList {
+        add(Manifest.permission.RECORD_AUDIO)
+        add(Manifest.permission.CAMERA)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) add(Manifest.permission.BLUETOOTH_CONNECT)
+    }
+    fun granted() = permissions.all {
+        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
+    var hasPermissions by remember { mutableStateOf(granted()) }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        hasPermissions = granted()
+    }
+    LaunchedEffect(Unit) {
+        if (!hasPermissions) launcher.launch(permissions.toTypedArray())
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        supportFragmentManager.popBackStackImmediate()
-        val fragments = supportFragmentManager.fragments
-        if (fragments.isNotEmpty()) {
-            val lastFragment = supportFragmentManager.fragments.last()
-            if (lastFragment.tag == MainFragment.TAG) {
-                // Show the MainFragment if all the other fragments were removed
-                supportFragmentManager.findFragmentByTag(MainFragment.TAG)?.view?.visibility = View.VISIBLE
-            }
+    if (hasPermissions) {
+        content()
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text("Microphone and camera permissions are required.")
+            Spacer(Modifier.height(12.dp))
+            Button(onClick = { launcher.launch(permissions.toTypedArray()) }) { Text("Grant permissions") }
         }
     }
 }
